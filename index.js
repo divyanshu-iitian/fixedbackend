@@ -52,6 +52,7 @@ let SCRAPE_STATE = {
 
 app.use(cors({ origin: '*' }));
 app.use(express.json());
+app.use(express.static(__dirname));
 
 // Ensure data dir exists
 if (!fs.existsSync(DATA_DIR)) {
@@ -305,14 +306,18 @@ cron.schedule('*/20 * * * *', async () => {
   }
 });
 
-app.get('/api/leaderboard', (req, res) => {
-  // Ensure badge_count is always present for frontend
-  const data = (CACHE.data || []).map(profile => ({
+app.get('/api/leaderboard', async (req, res) => {
+  console.log('[API] Force refreshing data from MongoDB for /api/leaderboard');
+  const data = await loadFromMongoDB();
+  
+  // Map MongoDB format (badges) to frontend format (titles)
+  const formattedData = (data || []).map(profile => ({
     ...profile,
-    badge_count: Array.isArray(profile.titles) ? profile.titles.length : 0,
-    name: profile.name || 'Unknown'
+    name: profile.name || 'Unknown',
+    titles: profile.badges || profile.titles || [], // Support both fields
+    badge_count: profile.badge_count || (profile.badges ? profile.badges.length : 0),
   }));
-  res.json(data);
+  res.json(formattedData);
 });
 
 app.get('/api/status', (req, res) => {

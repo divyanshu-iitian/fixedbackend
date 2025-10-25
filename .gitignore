@@ -1,5 +1,29 @@
+# Dependencies
 node_modules/
-*.log
+
+# Environment variables
 .env
+
+# Logs
+*.log
+
+# OS files
 .DS_Store
-data/results.json
+Thumbs.db
+
+# Data files (temporary)
+data/
+*.json
+!package.json
+!package-lock.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Temporary files
+bhaskar_temp.json
+test_output.json
+merged_data.json
+scraped_data.json
