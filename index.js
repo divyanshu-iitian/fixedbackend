@@ -19,6 +19,30 @@ process.on('unhandledRejection', (reason, promise) => {
   console.error('[FATAL] Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
+// 20 Required Labs for GDGC GGV Study Jams 2025
+const REQUIRED_LABS = [
+  "The Basics of Google Cloud Compute",
+  "Get Started with Cloud Storage",
+  "Get Started with Pub/Sub",
+  "Get Started with API Gateway",
+  "Get Started with Looker",
+  "Get Started with Dataplex",
+  "Get Started with Google Workspace Tools",
+  "App Building with AppSheet",
+  "Develop with Apps Script and AppSheet",
+  "Build a Website on Google Cloud",
+  "Set Up a Google Cloud Network",
+  "Store, Process, and Manage Data on Google Cloud - Console",
+  "Cloud Run Functions: 3 Ways",
+  "App Engine: 3 Ways",
+  "Cloud Speech API: 3 Ways",
+  "Monitoring in Google Cloud",
+  "Analyze Speech and Language with Google APIs",
+  "Prompt Design in Vertex AI",
+  "Develop Gen AI Apps with Gemini and Streamlit",
+  "Level 3: Generative AI"
+];
+
 // MongoDB Configuration
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://divyanshumishra0806_db_user:77K64gX5xX14nxmW@cluster0.xrv8slm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const DB_NAME = 'gdgc-leaderboard';
@@ -311,12 +335,25 @@ app.get('/api/leaderboard', async (req, res) => {
   const data = await loadFromMongoDB();
   
   // Map MongoDB format (badges) to frontend format (titles)
-  const formattedData = (data || []).map(profile => ({
-    ...profile,
-    name: profile.name || 'Unknown',
-    titles: profile.badges || profile.titles || [], // Support both fields
-    badge_count: profile.badge_count || (profile.badges ? profile.badges.length : 0),
-  }));
+  // AND calculate required labs completion
+  const formattedData = (data || []).map(profile => {
+    const userBadges = profile.badges || profile.titles || [];
+    
+    // Count how many of the 20 required labs this user has completed
+    const requiredLabsCompleted = REQUIRED_LABS.filter(lab => 
+      userBadges.some(badge => badge.toLowerCase().includes(lab.toLowerCase()))
+    ).length;
+    
+    return {
+      ...profile,
+      name: profile.name || 'Unknown',
+      titles: userBadges, // Support both fields
+      badge_count: profile.badge_count || userBadges.length,
+      required_labs_completed: requiredLabsCompleted, // NEW: 20 required labs count
+      required_labs_total: 20
+    };
+  });
+  
   res.json(formattedData);
 });
 

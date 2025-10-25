@@ -8,6 +8,7 @@
     "url": "https://www.cloudskillsboost.google/public_profiles/00cec247-05c8-4ccc-b1de-2a6345db1447",
     "name": "Anukriti Tiwari",
     "titles": [
+      "Get Started with API Gateway",
       "Get Started with Cloud Storage"
     ]
   },
@@ -101,6 +102,7 @@
     "url": "https://www.cloudskillsboost.google/public_profiles/132e7d23-83e9-4f22-891b-045b9d714b7d",
     "name": "Lily Sharma",
     "titles": [
+      "Get Started with Looker",
       "Get Started with Dataplex",
       "Get Started with API Gateway",
       "Get Started with Pub/Sub",
@@ -146,8 +148,7 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/148f11da-2f43-4c0e-adcc-92f6d6bab424",
-    "error": "Page.goto: Timeout 180000ms exceeded.\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/148f11da-2f43-4c0e-adcc-92f6d6bab424\", waiting until \"networkidle\"\n",
-    "name": "",
+    "name": "Rishabh Anand",
     "titles": []
   },
   {
@@ -157,9 +158,24 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/17605ec6-91e8-4ffa-be3f-ed88f426d706",
-    "error": "Page.goto: net::ERR_CONNECTION_RESET at https://www.cloudskillsboost.google/public_profiles/17605ec6-91e8-4ffa-be3f-ed88f426d706\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/17605ec6-91e8-4ffa-be3f-ed88f426d706\", waiting until \"networkidle\"\n",
-    "name": "",
-    "titles": []
+    "name": "Satya Prakash",
+    "titles": [
+      "Analyze Speech and Language with Google APIs",
+      "Cloud Speech API: 3 Ways",
+      "App Engine: 3 Ways",
+      "Cloud Run Functions: 3 Ways",
+      "Store, Process, and Manage Data on Google Cloud - Console",
+      "Build a Website on Google Cloud",
+      "Develop with Apps Script and AppSheet",
+      "Get Started with Google Workspace Tools",
+      "Get Started with Dataplex",
+      "Get Started with Looker",
+      "Get Started with API Gateway",
+      "Get Started with Pub/Sub",
+      "Level 3: Generative AI",
+      "Get Started with Cloud Storage",
+      "The Basics of Google Cloud Compute"
+    ]
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/1995e5cc-2068-420a-a4a0-9482f3aabc82",
@@ -180,9 +196,12 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/1c9cef8c-229d-46aa-a084-bf4013ac24a7",
-    "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://www.cloudskillsboost.google/public_profiles/1c9cef8c-229d-46aa-a084-bf4013ac24a7\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/1c9cef8c-229d-46aa-a084-bf4013ac24a7\", waiting until \"networkidle\"\n",
-    "name": "",
-    "titles": []
+    "name": "Rohit Kumar",
+    "titles": [
+      "Get Started with Pub/Sub",
+      "Get Started with Cloud Storage",
+      "The Basics of Google Cloud Compute"
+    ]
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/1ce8a2e6-6438-4959-9b40-65beb2657a5c",
@@ -497,6 +516,7 @@
     "url": "https://www.cloudskillsboost.google/public_profiles/47398635-f82c-43a5-9f1f-0ebb1a0ee559",
     "name": "Sricha Bhagat",
     "titles": [
+      "Get Started with Dataplex",
       "Get Started with Looker",
       "Get Started with API Gateway",
       "Get Started with Pub/Sub",
@@ -662,7 +682,9 @@
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/62c40217-4014-4a1a-a551-50f708734854",
     "name": "Palak Dev Bhagat",
-    "titles": []
+    "titles": [
+      "Develop with Apps Script and AppSheet"
+    ]
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/6450b6d1-c4d1-427f-b0e4-42c8a17cb7aa",
@@ -933,6 +955,8 @@
     "url": "https://www.cloudskillsboost.google/public_profiles/878be590-b180-4b4c-9a2f-f7bd179868cb",
     "name": "Shrestha Suryansh",
     "titles": [
+      "Develop Gen AI Apps with Gemini and Streamlit",
+      "Prompt Design in Vertex AI",
       "Analyze Speech and Language with Google APIs",
       "Monitoring in Google Cloud",
       "Cloud Speech API: 3 Ways",
@@ -1029,6 +1053,7 @@
     "url": "https://www.cloudskillsboost.google/public_profiles/9ccb3926-a876-4bea-8bf5-d5d09a67ca65",
     "name": "Kyush Kumar",
     "titles": [
+      "Get Started with Google Workspace Tools",
       "Get Started with Dataplex",
       "Get Started with Looker",
       "Get Started with API Gateway",
@@ -1558,6 +1583,7 @@
     "url": "https://www.cloudskillsboost.google/public_profiles/df12d935-8cc3-493d-bc58-87235f869e3f",
     "name": "Priyanshu Raj",
     "titles": [
+      "Level 3: Generative AI",
       "Cloud Speech API: 3 Ways",
       "App Engine: 3 Ways",
       "Cloud Run Functions: 3 Ways",
@@ -1742,6 +1768,7 @@
     "url": "https://www.cloudskillsboost.google/public_profiles/f09a3080-a113-4f3b-aac4-b275a395e02e",
     "name": "Vishvdev Singh",
     "titles": [
+      "Analyze Speech and Language with Google APIs",
       "Monitoring in Google Cloud",
       "Cloud Speech API: 3 Ways",
       "App Engine: 3 Ways",
@@ -1881,6 +1908,8 @@
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/01620a5e-c79a-41f0-9aa0-0c651cc551cc",
     "name": "Sankalp Raj Oraon",
-    "titles": []
+    "titles": [
+      "The Basics of Google Cloud Compute"
+    ]
   }
 ]
