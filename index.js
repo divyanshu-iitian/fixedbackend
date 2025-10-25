@@ -125,22 +125,29 @@ async function saveToMongoDB(profiles) {
     // Save ALL profiles, even if incomplete
     const operations = profiles
       .filter(p => p.url) // Only need valid URL
-      .map(profile => ({
-        updateOne: {
-          filter: { url: profile.url },
-          update: {
-            $set: {
-              url: profile.url,
-              name: profile.name || 'Unknown', // Default name if missing
-              titles: Array.isArray(profile.titles) ? profile.titles : [],
-              badge_count: Array.isArray(profile.titles) ? profile.titles.length : 0, // Calculate badge_count
-              error: profile.error || null,
-              updatedAt: new Date()
-            }
-          },
-          upsert: true
-        }
-      }));
+      .map(profile => {
+        const badgesArray = Array.isArray(profile.titles) 
+          ? profile.titles 
+          : (Array.isArray(profile.badges) ? profile.badges : []);
+        
+        return {
+          updateOne: {
+            filter: { url: profile.url },
+            update: {
+              $set: {
+                url: profile.url,
+                name: profile.name || 'Unknown', // Default name if missing
+                titles: badgesArray, // For backward compatibility
+                badges: badgesArray, // Store in badges field too
+                badge_count: badgesArray.length, // Calculate badge_count
+                error: profile.error || null,
+                updatedAt: new Date()
+              }
+            },
+            upsert: true
+          }
+        };
+      });
 
     if (operations.length > 0) {
       const result = await collection.bulkWrite(operations);
