@@ -46,11 +46,13 @@ const REQUIRED_LABS = [
 // MongoDB Configuration
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://divyanshumishra0806_db_user:77K64gX5xX14nxmW@cluster0.xrv8slm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const DB_NAME = 'gdgc-leaderboard';
-const COLLECTION_NAME = 'profiles';
+const COLLECTION_PROD = 'profiles';        // Production collection (stable, frontend reads this)
+const COLLECTION_STAGING = 'profiles_staging'; // Staging collection (scraping happens here)
 
 let mongoClient = null;
 let db = null;
-let profilesCollection = null;
+let profilesCollection = null;      // Production collection
+let stagingCollection = null;        // Staging collection
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -96,14 +98,16 @@ async function connectMongoDB() {
       
       await mongoClient.connect();
       db = mongoClient.db(DB_NAME);
-      profilesCollection = db.collection(COLLECTION_NAME);
+      profilesCollection = db.collection(COLLECTION_PROD);      // Production (stable)
+      stagingCollection = db.collection(COLLECTION_STAGING);    // Staging (scraping)
       
-      // Create index on URL for faster queries
+      // Create indexes on both collections
       await profilesCollection.createIndex({ url: 1 }, { unique: true });
+      await stagingCollection.createIndex({ url: 1 }, { unique: true });
       
-      console.log('[MongoDB] ✅ Connected successfully');
+      console.log('[MongoDB] ✅ Connected successfully (Production + Staging)');
     }
-    return profilesCollection;
+    return profilesCollection; // API reads from production
   } catch (error) {
     console.error('[MongoDB] ❌ Connection failed:', error.message);
     console.log('[MongoDB] ℹ️ Will continue with local files only');
@@ -112,17 +116,16 @@ async function connectMongoDB() {
   }
 }
 
-// Save data to MongoDB
-async function saveToMongoDB(profiles) {
+// Save scraped data to STAGING collection (temporary during scraping)
+async function saveToStaging(profiles) {
   try {
-    const collection = await connectMongoDB();
-    if (!collection || !Array.isArray(profiles) || profiles.length === 0) {
-      console.log('[MongoDB] ⏭️ Skipping save (no connection or no data)');
-      return;
+    await connectMongoDB(); // Ensure connection
+    if (!stagingCollection || !Array.isArray(profiles) || profiles.length === 0) {
+      console.log('[Staging] ⏭️ Skipping save (no connection or no data)');
+      return false;
     }
 
-    // Upsert each profile (update if exists, insert if new)
-    // Save ALL profiles, even if incomplete
+    // Upsert each profile to staging
     const operations = profiles
       .filter(p => p.url) // Only need valid URL
       .map(profile => {
@@ -136,12 +139,12 @@ async function saveToMongoDB(profiles) {
             update: {
               $set: {
                 url: profile.url,
-                name: profile.name || 'Unknown', // Default name if missing
-                titles: badgesArray, // For backward compatibility
-                badges: badgesArray, // Store in badges field too
-                badge_count: badgesArray.length, // Calculate badge_count
+                name: profile.name || 'Unknown',
+                titles: badgesArray,
+                badges: badgesArray,
+                badge_count: badgesArray.length,
                 error: profile.error || null,
-                updatedAt: new Date()
+                scrapedAt: new Date()
               }
             },
             upsert: true
@@ -150,12 +153,53 @@ async function saveToMongoDB(profiles) {
       });
 
     if (operations.length > 0) {
-      const result = await collection.bulkWrite(operations);
-      console.log(`[MongoDB] 💾 Saved ${result.upsertedCount + result.modifiedCount} profiles`);
+      const result = await stagingCollection.bulkWrite(operations);
+      console.log(`[Staging] 💾 Saved ${result.upsertedCount + result.modifiedCount} profiles to staging`);
+      return true;
     }
+    return false;
   } catch (error) {
-    console.error('[MongoDB] ❌ Save error:', error.message);
-    console.log('[MongoDB] ℹ️ Data saved to local files only');
+    console.error('[Staging] ❌ Save error:', error.message);
+    return false;
+  }
+}
+
+// Promote staging data to production (atomic swap after scrape completes)
+async function promoteToProduction() {
+  try {
+    await connectMongoDB();
+    if (!stagingCollection || !profilesCollection) {
+      console.log('[Promote] ⏭️ Skipping (no connection)');
+      return false;
+    }
+
+    // Count staging profiles with valid names (not "Unknown")
+    const stagingCount = await stagingCollection.countDocuments({});
+    const validCount = await stagingCollection.countDocuments({ 
+      name: { $ne: 'Unknown' },
+      badge_count: { $exists: true }
+    });
+
+    console.log(`[Promote] Staging has ${stagingCount} profiles, ${validCount} with valid names`);
+
+    // Only promote if we have reasonable data (at least 150 valid profiles)
+    if (validCount < 150) {
+      console.log(`[Promote] ⚠️ Not enough valid profiles (${validCount}/150 minimum). Keeping old data.`);
+      return false;
+    }
+
+    // Copy all staging data to production (replace)
+    const stagingData = await stagingCollection.find({}).toArray();
+    
+    // Clear production and insert staging data
+    await profilesCollection.deleteMany({});
+    const result = await profilesCollection.insertMany(stagingData);
+    
+    console.log(`[Promote] ✅ Promoted ${result.insertedCount} profiles to production`);
+    return true;
+  } catch (error) {
+    console.error('[Promote] ❌ Promotion failed:', error.message);
+    return false;
   }
 }
 
@@ -197,21 +241,23 @@ function readJsonSafe(file) {
 async function initCache() {
   console.log('[Cache] Initializing...');
   
-  // Try loading from MongoDB first
+  // Try loading from PRODUCTION MongoDB
   const mongoData = await loadFromMongoDB();
   
   if (mongoData && mongoData.length > 0) {
     CACHE.data = mongoData;
-    console.log(`[Cache] ✅ Loaded ${mongoData.length} profiles from MongoDB`);
+    console.log(`[Cache] ✅ Loaded ${mongoData.length} profiles from production MongoDB`);
   } else {
     // Fallback to local files
     const initial = readJsonSafe(OUTPUT_JSON) || readJsonSafe(FALLBACK_JSON) || [];
     CACHE.data = Array.isArray(initial) ? initial : [];
     console.log(`[Cache] ℹ️ Loaded ${CACHE.data.length} profiles from local files`);
     
-    // If we have local data but not in MongoDB, save it
+    // If we have local data but not in MongoDB production, seed it via staging
     if (CACHE.data.length > 0) {
-      await saveToMongoDB(CACHE.data);
+      console.log('[Cache] 🌱 Seeding production from local files...');
+      await saveToStaging(CACHE.data);
+      await promoteToProduction();
     }
   }
   
@@ -271,36 +317,48 @@ function runScrape(batchIndex = null) {
       resolve({ ok: false, stderr: err.message });
     });
 
-    proc.on('close', (code) => {
+    proc.on('close', async (code) => {
       SCRAPE_STATE.isRunning = false;
       
       if (code === 0) {
-        console.log('[scrape] Completed successfully');
-        // Refresh cache from latest file
+        console.log('[scrape] ✅ Scraping completed successfully');
+        
+        // Read scraped data from file
         const latest = readJsonSafe(outPath);
-        if (Array.isArray(latest)) {
-          CACHE.data = latest;
-          CACHE.updatedAt = new Date().toISOString();
-          console.log(`[scrape] Cache updated: ${CACHE.data.length} profiles`);
+        if (Array.isArray(latest) && latest.length > 0) {
+          console.log(`[scrape] 📄 Read ${latest.length} profiles from output file`);
           
-          // IMPORTANT: Save to MongoDB for permanent persistence
-          saveToMongoDB(latest).then(() => {
-            console.log('[scrape] ✅ Data synced to MongoDB');
-          }).catch(err => {
-            console.error('[scrape] MongoDB sync error:', err.message);
-          });
+          // Step 1: Save to STAGING collection
+          const savedToStaging = await saveToStaging(latest);
           
-          // Also backup to fallback file for local access
+          if (savedToStaging) {
+            // Step 2: Validate and promote staging → production
+            const promoted = await promoteToProduction();
+            
+            if (promoted) {
+              // Step 3: Update cache from production
+              const freshData = await loadFromMongoDB();
+              if (freshData) {
+                CACHE.data = freshData;
+                CACHE.updatedAt = new Date().toISOString();
+                console.log(`[scrape] 🎉 Cache updated from production: ${CACHE.data.length} profiles`);
+              }
+            } else {
+              console.log('[scrape] ⚠️ Promotion failed, keeping old production data');
+            }
+          }
+          
+          // Backup to local file regardless
           try {
             fs.writeFileSync(FALLBACK_JSON, JSON.stringify(latest, null, 2));
-            console.log('[scrape] Persisted data to fallback file');
+            console.log('[scrape] 💾 Backup saved to fallback file');
           } catch (err) {
-            console.error('[scrape] Failed to persist to fallback:', err.message);
+            console.error('[scrape] Failed to save backup:', err.message);
           }
         }
         resolve({ ok: true, stdout });
       } else {
-        console.error(`[scrape] Failed with code ${code}`);
+        console.error(`[scrape] ❌ Failed with code ${code}`);
         if (stderr) console.error(stderr);
         resolve({ ok: false, stdout, stderr, code });
       }
