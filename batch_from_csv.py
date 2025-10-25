@@ -16,32 +16,45 @@ from typing import List
 CSV_PATH = Path('gform.csv')
 
 
-def extract_urls_from_csv(path: Path) -> List[str]:
-    urls = set()
+def extract_urls_from_csv(path: Path) -> List[dict]:
+    """Extract URLs and names from CSV. Returns list of {url, name} dicts."""
+    url_name_map = {}
     if not path.exists():
         print(f"CSV file not found: {path}")
         return []
     pattern = re.compile(r'(https?://[^\s"\'>]+/public_profiles/[^\s"\'>]+)')
     with path.open(newline='', encoding='utf-8') as f:
         reader = csv.reader(f)
+        header = next(reader, None)  # Skip header
         for row in reader:
-            for cell in row:
-                if not cell:
-                    continue
-                # try to find full URL in cell
+            name = row[4].strip() if len(row) > 4 else ''  # Column 4 = "Your Full Name"
+            url = None
+            # Find URL in last column (column 9)
+            if len(row) > 9:
+                cell = row[9]
                 m = pattern.search(cell)
                 if m:
-                    u = m.group(1).split('?')[0].split('#')[0]
-                    urls.add(u)
-                else:
-                    # maybe the cell itself is a path or contains /public_profiles/
-                    if '/public_profiles/' in cell:
-                        # try to normalize
+                    url = m.group(1).split('?')[0].split('#')[0]
+            
+            # Fallback: search all cells for URL
+            if not url:
+                for cell in row:
+                    if not cell:
+                        continue
+                    m = pattern.search(cell)
+                    if m:
+                        url = m.group(1).split('?')[0].split('#')[0]
+                        break
+                    elif '/public_profiles/' in cell:
                         part = cell.strip()
                         if part.startswith('http'):
-                            u = part.split('?')[0].split('#')[0]
-                            urls.add(u)
-    return sorted(urls)
+                            url = part.split('?')[0].split('#')[0]
+                            break
+            
+            if url:
+                url_name_map[url] = name
+    
+    return [{'url': u, 'name': n} for u, n in url_name_map.items()]
 
 
 def scrape_profile_with_name(url: str, timeout: int = 180) -> dict:
@@ -120,20 +133,20 @@ def main():
     parser.add_argument('--limit', type=int, default=None, help='Number of profiles to scrape (for batching)')
     args = parser.parse_args()
 
-    urls = extract_urls_from_csv(CSV_PATH)
-    if not urls:
+    url_data = extract_urls_from_csv(CSV_PATH)  # Now returns [{url, name}, ...]
+    if not url_data:
         print('No profile URLs found in gform.csv')
         sys.exit(1)
 
     # Apply batch slicing if specified
-    total_urls = len(urls)
+    total_urls = len(url_data)
     if args.start > 0 or args.limit is not None:
         end_idx = args.start + args.limit if args.limit else total_urls
-        urls = urls[args.start:end_idx]
-        print(f'Batch mode: scraping profiles {args.start} to {args.start + len(urls)} (out of {total_urls} total)')
+        url_data = url_data[args.start:end_idx]
+        print(f'Batch mode: scraping profiles {args.start} to {args.start + len(url_data)} (out of {total_urls} total)')
     
     workers = args.workers
-    print(f'Found {len(urls)} profile URLs to scrape. Using {workers} workers...')
+    print(f'Found {len(url_data)} profile URLs to scrape. Using {workers} workers...')
 
     # ALWAYS load existing results to merge/update (for persistence across restarts)
     out_path = Path(args.out)
@@ -149,9 +162,13 @@ def main():
     results = []
     
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        futures = {ex.submit(scrape_profile_with_name, url): url for url in urls}
+        # Create futures with url_data (which has both url and name from CSV)
+        futures = {ex.submit(scrape_profile_with_name, item['url']): item for item in url_data}
         for fut in as_completed(futures):
-            url = futures[fut]
+            item = futures[fut]
+            url = item['url']
+            csv_name = item['name']  # Name from CSV
+            
             try:
                 res = fut.result()
             except Exception as e:
@@ -160,11 +177,13 @@ def main():
             entry = {'url': url}
             if 'error' in res:
                 entry['error'] = res['error']
-                entry['name'] = ''
+                entry['name'] = csv_name  # Use CSV name on error
                 entry['titles'] = []
-                print(f'ERR {url} -> {res["error"][:80]}')
+                print(f'ERR {url} -> {res["error"][:80]} (using CSV name: {csv_name})')
             else:
-                entry['name'] = res.get('name', '')
+                # Prefer scraped name, fallback to CSV name
+                scraped_name = res.get('name', '').strip()
+                entry['name'] = scraped_name if scraped_name else csv_name
                 entry['titles'] = res.get('titles', [])
                 print(f'OK {url} -> {entry["name"]} ({len(entry["titles"])} titles)')
             
