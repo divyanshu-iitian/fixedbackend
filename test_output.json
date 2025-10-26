@@ -3,5 +3,70 @@
     "url": "https://www.cloudskillsboost.google/public_profiles/00cec247-05c8-4ccc-b1de-2a6345db1447",
     "name": "Anukriti Tiwari",
     "titles": []
+  },
+  {
+    "url": "https://www.cloudskillsboost.google/public_profiles/03d362d1-4f62-4423-96ff-a4499464a137",
+    "name": "rishi raj singh",
+    "titles": [
+      "Build a Website on Google Cloud",
+      "Get Started with Google Workspace Tools",
+      "Get Started with API Gateway",
+      "Get Started with Pub/Sub",
+      "Get Started with Cloud Storage",
+      "The Basics of Google Cloud Compute"
+    ]
+  },
+  {
+    "url": "https://www.cloudskillsboost.google/public_profiles/3ff5770e-2cc0-4f0a-96bf-6b0b001afb18",
+    "name": "Anushree Bhattacharya",
+    "titles": [
+      "Get Started with Pub/Sub",
+      "Get Started with Cloud Storage"
+    ]
+  },
+  {
+    "url": "https://www.cloudskillsboost.google/public_profiles/c02292f4-cf36-4b15-881b-e60fbb97da1a",
+    "name": "Md Sahil",
+    "titles": []
+  },
+  {
+    "url": "https://www.cloudskillsboost.google/public_profiles/9f183660-a437-4611-9c90-a9eea100e5ba",
+    "name": "Dhrupad Sanyal",
+    "titles": [
+      "Cloud Run Functions: 3 Ways",
+      "Store, Process, and Manage Data on Google Cloud - Console",
+      "App Engine: 3 Ways",
+      "Set Up a Google Cloud Network",
+      "Build a Website on Google Cloud",
+      "Get Started with API Gateway",
+      "Get Started with Looker",
+      "Get Started with Dataplex",
+      "Get Started with Pub/Sub",
+      "Get Started with Cloud Storage"
+    ]
+  },
+  {
+    "url": "https://www.cloudskillsboost.google/public_profiles/df12d935-8cc3-493d-bc58-87235f869e3f",
+    "name": "Priyanshu Raj",
+    "titles": [
+      "Analyze Speech and Language with Google APIs",
+      "Monitoring in Google Cloud",
+      "Level 3: Generative AI",
+      "Cloud Speech API: 3 Ways",
+      "App Engine: 3 Ways",
+      "Cloud Run Functions: 3 Ways",
+      "Store, Process, and Manage Data on Google Cloud - Console",
+      "Set Up a Google Cloud Network",
+      "Build a Website on Google Cloud",
+      "Develop with Apps Script and AppSheet",
+      "App Building with AppSheet",
+      "Get Started with Google Workspace Tools",
+      "Get Started with Dataplex",
+      "Get Started with Looker",
+      "Get Started with API Gateway",
+      "Get Started with Pub/Sub",
+      "Get Started with Cloud Storage",
+      "The Basics of Google Cloud Compute"
+    ]
   }
 ]
