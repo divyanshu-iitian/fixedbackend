@@ -383,17 +383,7 @@ function runScrape(batchIndex = null) {
 //   });
 // }, 5000); // Wait 5 seconds after server starts
 
-// Schedule FULL scrape every 20 minutes - AUTO UPDATE TO MONGODB
-// This will scrape ALL 187 profiles and immediately update MongoDB
-cron.schedule('*/20 * * * *', async () => {
-  console.log('[cron] Starting scheduled full scrape of all 187 profiles...');
-  const result = await runScrape(null); // null = scrape all
-  if (result.ok) {
-    console.log('[cron] ✅ Scrape completed and data synced to MongoDB');
-  } else {
-    console.log('[cron] ⚠️ Scrape failed, will retry in next cycle');
-  }
-});
+// Scraping logic removed. Backend now only serves data from MongoDB.
 
 app.get('/api/leaderboard', async (req, res) => {
   console.log('[API] Force refreshing data from MongoDB for /api/leaderboard');
@@ -426,10 +416,7 @@ app.get('/api/status', (req, res) => {
   res.json({ updatedAt: CACHE.updatedAt, count: CACHE.data?.length || 0 });
 });
 
-app.post('/api/scrape', async (req, res) => {
-  const result = await runScrape();
-  res.json(result);
-});
+// Scrape endpoint disabled. Backend only serves data from MongoDB.
 
 // Simple health endpoint
 app.get('/api/health', (req, res) => {

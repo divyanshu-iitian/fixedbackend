@@ -29,9 +29,18 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/03d362d1-4f62-4423-96ff-a4499464a137",
-    "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.cloudskillsboost.google/public_profiles/03d362d1-4f62-4423-96ff-a4499464a137\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/03d362d1-4f62-4423-96ff-a4499464a137\", waiting until \"networkidle\"\n",
     "name": "rishi raj singh",
-    "titles": []
+    "titles": [
+      "App Engine: 3 Ways",
+      "Cloud Run Functions: 3 Ways",
+      "Set Up a Google Cloud Network",
+      "Build a Website on Google Cloud",
+      "Get Started with Google Workspace Tools",
+      "Get Started with API Gateway",
+      "Get Started with Pub/Sub",
+      "Get Started with Cloud Storage",
+      "The Basics of Google Cloud Compute"
+    ]
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/046b3215-c51a-456a-af4c-dcb43c2c5b9d",
@@ -476,6 +485,7 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/3bd51422-3600-484c-baf3-197121979d74",
+    "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.cloudskillsboost.google/public_profiles/3bd51422-3600-484c-baf3-197121979d74\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/3bd51422-3600-484c-baf3-197121979d74\", waiting until \"networkidle\"\n",
     "name": "vanika singh",
     "titles": []
   },
@@ -499,9 +509,11 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/3ff5770e-2cc0-4f0a-96bf-6b0b001afb18",
-    "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.cloudskillsboost.google/public_profiles/3ff5770e-2cc0-4f0a-96bf-6b0b001afb18\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/3ff5770e-2cc0-4f0a-96bf-6b0b001afb18\", waiting until \"networkidle\"\n",
     "name": "Anushree Bhattacharya",
-    "titles": []
+    "titles": [
+      "Get Started with Pub/Sub",
+      "Get Started with Cloud Storage"
+    ]
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/4193c727-3a7b-4cbb-bf40-658f6f2c82d0",
@@ -720,9 +732,10 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/6450b6d1-c4d1-427f-b0e4-42c8a17cb7aa",
-    "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.cloudskillsboost.google/public_profiles/6450b6d1-c4d1-427f-b0e4-42c8a17cb7aa\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/6450b6d1-c4d1-427f-b0e4-42c8a17cb7aa\", waiting until \"networkidle\"\n",
     "name": "Kumar Raj Chaurasiya",
-    "titles": []
+    "titles": [
+      "The Basics of Google Cloud Compute"
+    ]
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/67fcfea4-1f24-43df-be2c-d7759d150c5c",
@@ -1048,8 +1061,7 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/95b15e05-2acc-4df5-933b-990eaabbb729",
-    "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.cloudskillsboost.google/public_profiles/95b15e05-2acc-4df5-933b-990eaabbb729\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/95b15e05-2acc-4df5-933b-990eaabbb729\", waiting until \"networkidle\"\n",
-    "name": "Shaswat",
+    "name": "Shaswat Kumar",
     "titles": []
   },
   {
@@ -1080,7 +1092,6 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/97bf9522-b6c1-4709-9da1-6b9e00508527",
-    "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.cloudskillsboost.google/public_profiles/97bf9522-b6c1-4709-9da1-6b9e00508527\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/97bf9522-b6c1-4709-9da1-6b9e00508527\", waiting until \"networkidle\"\n",
     "name": "Gulshan Kumar",
     "titles": []
   },
@@ -1119,9 +1130,19 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/9f183660-a437-4611-9c90-a9eea100e5ba",
-    "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.cloudskillsboost.google/public_profiles/9f183660-a437-4611-9c90-a9eea100e5ba\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/9f183660-a437-4611-9c90-a9eea100e5ba\", waiting until \"networkidle\"\n",
-    "name": "Dhrupad sanyal",
-    "titles": []
+    "name": "Dhrupad Sanyal",
+    "titles": [
+      "Cloud Run Functions: 3 Ways",
+      "Store, Process, and Manage Data on Google Cloud - Console",
+      "App Engine: 3 Ways",
+      "Set Up a Google Cloud Network",
+      "Build a Website on Google Cloud",
+      "Get Started with API Gateway",
+      "Get Started with Looker",
+      "Get Started with Dataplex",
+      "Get Started with Pub/Sub",
+      "Get Started with Cloud Storage"
+    ]
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/9e45c01a-1a05-464e-9f71-876408141878",
@@ -1411,7 +1432,6 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/c02292f4-cf36-4b15-881b-e60fbb97da1a",
-    "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.cloudskillsboost.google/public_profiles/c02292f4-cf36-4b15-881b-e60fbb97da1a\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/c02292f4-cf36-4b15-881b-e60fbb97da1a\", waiting until \"networkidle\"\n",
     "name": "Md Sahil",
     "titles": []
   },
@@ -1427,7 +1447,6 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/c5ab949f-36f2-4d4c-8dc3-c0d38526f2fc",
-    "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.cloudskillsboost.google/public_profiles/c5ab949f-36f2-4d4c-8dc3-c0d38526f2fc\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/c5ab949f-36f2-4d4c-8dc3-c0d38526f2fc\", waiting until \"networkidle\"\n",
     "name": "Anmol Lakra",
     "titles": []
   },
@@ -1650,9 +1669,29 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/df12d935-8cc3-493d-bc58-87235f869e3f",
-    "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.cloudskillsboost.google/public_profiles/df12d935-8cc3-493d-bc58-87235f869e3f\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/df12d935-8cc3-493d-bc58-87235f869e3f\", waiting until \"networkidle\"\n",
     "name": "Priyanshu Raj",
-    "titles": []
+    "titles": [
+      "Develop Gen AI Apps with Gemini and Streamlit",
+      "Prompt Design in Vertex AI",
+      "Analyze Speech and Language with Google APIs",
+      "Monitoring in Google Cloud",
+      "Level 3: Generative AI",
+      "Cloud Speech API: 3 Ways",
+      "App Engine: 3 Ways",
+      "Cloud Run Functions: 3 Ways",
+      "Store, Process, and Manage Data on Google Cloud - Console",
+      "Set Up a Google Cloud Network",
+      "Build a Website on Google Cloud",
+      "Develop with Apps Script and AppSheet",
+      "App Building with AppSheet",
+      "Get Started with Google Workspace Tools",
+      "Get Started with Dataplex",
+      "Get Started with Looker",
+      "Get Started with API Gateway",
+      "Get Started with Pub/Sub",
+      "Get Started with Cloud Storage",
+      "The Basics of Google Cloud Compute"
+    ]
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/dfd74a24-07b8-4cf9-9185-f43cf1ff9ba7",
@@ -1666,6 +1705,7 @@
   },
   {
     "url": "https://www.cloudskillsboost.google/public_profiles/e29d37f8-55bc-4c36-bbe3-6dc8cd670928",
+    "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.cloudskillsboost.google/public_profiles/e29d37f8-55bc-4c36-bbe3-6dc8cd670928\nCall log:\n  - navigating to \"https://www.cloudskillsboost.google/public_profiles/e29d37f8-55bc-4c36-bbe3-6dc8cd670928\", waiting until \"networkidle\"\n",
     "name": "Aditya Shah",
     "titles": []
   },
